@@ -71,7 +71,7 @@ class dashboardMod extends controller
 		
 		if( $cast == '' ) return ajax_box('广播内容不能为空');
 		
-		$sql = "INSERT INTO cast ( uid , name , link , timeline ) VALUES (  '" . intval(uid()) . "'  ,  '" . s($cast) . "'  ,  '" . s($link) . "'  ,  datetime('now')  )";
+		$sql = "INSERT INTO cast ( uid , name , link , timeline ) VALUES (  '" . intval(uid()) . "'  ,  '" . s($cast) . "'  ,  '" . s($link) . "'  ,  datetime('now', 'localtime')  )";
 		
 		run_sql( $sql );
 		

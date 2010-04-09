@@ -41,7 +41,8 @@ class todoMod extends controller
 
 		//echo "SELECT * FROM todo WHERE 1 $where $psql AND uid = '" . intval($uid) . "'  AND is_done = '0' AND is_delete = '0' AND is_slow = '0' ORDER BY is_start DESC , timeline DESC";
 		
-		$data['todos_done'] = get_data("SELECT * FROM todo WHERE  1 $where $psql AND uid = '" . intval($uid) . "' AND is_done = '1' AND is_delete != 1 AND is_slow != 1 ORDER BY check_time DESC , timeline DESC");
+		//$data['todos_done'] = get_data("SELECT * FROM todo WHERE  1 $where $psql AND uid = '" . intval($uid) . "' AND is_done = '1' AND is_delete != 1 AND is_slow != 1 ORDER BY check_time DESC , timeline DESC");
+		$data['todos_done'] = get_data("SELECT * FROM todo WHERE  1 $where $psql AND uid = '" . intval($uid) . "' AND is_done = '1' AND is_delete != 1 AND is_slow >= 0 ORDER BY check_time DESC , timeline DESC");
 		$data['todos_slow'] = get_data("SELECT * FROM todo WHERE  1 $psql $where AND  uid = '" . intval($uid) . "' AND is_done != '1' AND is_delete != 1 AND is_slow = 1 ORDER BY timeline DESC");
 		
 		$data['todos_other'] = get_data("SELECT * FROM todo WHERE  1 $psql $where AND creator_uid = '" . intval($uid) . "'  AND  uid != '" . intval($uid) . "' AND is_done != '1' AND is_delete != 1 AND is_slow != 1 ORDER BY timeline DESC");
@@ -270,9 +271,9 @@ class todoMod extends controller
 			$todo = get_line("SELECT * FROM todo WHERE id = '" . intval( $tid ) . "' LIMIT 1");
 			
 			if( $todo['init_time'] == '0000-00-00 00:00:00' )
-				$sql = "UPDATE todo SET  is_start = '1' , start_time = datetime('now') , init_time = datetime('now')  WHERE uid = '" . uid() . "' AND id = '" .intval($tid) . "'  ";
+				$sql = "UPDATE todo SET  is_start = '1' , start_time = datetime('now', 'localtime') , init_time = datetime('now', 'localtime')  WHERE uid = '" . uid() . "' AND id = '" .intval($tid) . "'  ";
 			else
-				$sql = "UPDATE todo SET  is_start = '1' , start_time = datetime('now')   WHERE uid = '" . uid() . "' AND id = '" .intval($tid) . "'  ";
+				$sql = "UPDATE todo SET  is_start = '1' , start_time = datetime('now', 'localtime')   WHERE uid = '" . uid() . "' AND id = '" .intval($tid) . "'  ";
 
 			run_sql( $sql );
 
@@ -291,7 +292,7 @@ class todoMod extends controller
 			$tid = intval(v('tid'));
 			if( $tid < 1 ) return ajax_box('错误的TODO ID');
 			
-			$sql = "UPDATE todo SET  is_start = '2' , total_time = total_time + (UNIX_TIMESTAMP(datetime('now')) - UNIX_TIMESTAMP(start_time))   WHERE uid = '" . uid() . "' AND id = '" .intval($tid) . "'  ";
+			$sql = "UPDATE todo SET  is_start = '2' , total_time = total_time + (UNIX_TIMESTAMP(datetime('now', 'localtime')) - UNIX_TIMESTAMP(start_time))   WHERE uid = '" . uid() . "' AND id = '" .intval($tid) . "'  ";
 
 			run_sql( $sql );
 
@@ -345,11 +346,11 @@ class todoMod extends controller
 		
 		if( $todo['is_start'] == 1 )
 		{
-			$sql = "UPDATE todo SET  is_done = '1' , check_time = datetime('now') , is_start = 0 ,  total_time = total_time + (UNIX_TIMESTAMP(datetime('now')) - UNIX_TIMESTAMP(start_time))   WHERE uid = '" . uid() . "' AND id = '" .intval($tid) . "'  ";
+			$sql = "UPDATE todo SET  is_done = '1' , check_time = datetime('now', 'localtime') , is_start = 0 ,  total_time = total_time + (UNIX_TIMESTAMP(datetime('now', 'localtime')) - UNIX_TIMESTAMP(start_time))   WHERE uid = '" . uid() . "' AND id = '" .intval($tid) . "'  ";
 		}
 		else
 		{
-			$sql = "UPDATE todo SET  is_done = '1' , check_time = datetime('now')   WHERE uid = '" . uid() . "' AND id = '" .intval($tid) . "'  ";
+			$sql = "UPDATE todo SET  is_done = '1' , check_time = datetime('now', 'localtime')   WHERE uid = '" . uid() . "' AND id = '" .intval($tid) . "'  ";
 		}
 		
 		
@@ -437,7 +438,7 @@ class todoMod extends controller
 		
 		if( $todo == '' ) return ajax_box('TODO内容不能为空');
 		
-		$sql = "INSERT INTO todo (  name , link , desp , uid , creator_uid , pid , is_done , follow_uids ,  timeline ) VALUES (    '" . s($todo) . "'  ,  '" . s($link) . "',  '" . s($desp) . "' ,'" . $uid . "'  , '" . uid() . "'  ,  '" . intval($pid) . "' , '0'  , '" . s( serialize( $follow_uids ) ) . "' , datetime('now')  )";
+		$sql = "INSERT INTO todo (  name , link , desp , uid , creator_uid , pid , is_done , follow_uids ,  timeline ) VALUES (    '" . s($todo) . "'  ,  '" . s($link) . "',  '" . s($desp) . "' ,'" . $uid . "'  , '" . uid() . "'  ,  '" . intval($pid) . "' , '0'  , '" . s( serialize( $follow_uids ) ) . "' , datetime('now', 'localtime')  )";
 
 		
 		run_sql( $sql );

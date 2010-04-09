@@ -92,7 +92,7 @@ class messageMod extends controller
 			$sql = "UPDATE message SET is_read = 1 WHERE to_uid = '" . uid() . "' AND from_uid = '" . intval($to_uid) . "' ";
 			run_sql( $sql );
 		
-		$sql = "INSERT INTO message ( from_uid , to_uid , title , content , timeline ) VALUES (  '" . uid() . "'  ,  '" . intval($to_uid) . "'  ,  '" . s($title) . "'  ,  '" . s($content) . "'  ,  datetime('now')  )";
+		$sql = "INSERT INTO message ( from_uid , to_uid , title , content , timeline ) VALUES (  '" . uid() . "'  ,  '" . intval($to_uid) . "'  ,  '" . s($title) . "'  ,  '" . s($content) . "'  ,  datetime('now', 'localtime')  )";
 		
 		run_sql( $sql );
 		

@@ -1,14 +1,15 @@
 <?php
 // the front page of lazyphp
 
-error_reporting(E_ALL);
+ini_set('display_errors',true);
+error_reporting(E_ERROR);
 ini_set( 'magic_quotes_gpc' , false );
 
-@date_default_timezone_set('Asia/Chongqing');
+@date_default_timezone_set('Asia/Shanghai');
 
 // 常量
 define( 'IN' , true );
-
+define( 'IN_SQLITE3', true);
 define( 'ROOT' , dirname( __FILE__ ) . '/' );
 define( 'CROOT' , ROOT . 'code/'  );
 
@@ -20,10 +21,10 @@ include_once( CROOT . 'config/core.config.php' );
 
 if( !file_exists( CROOT . 'config/db.config.php' ) )
 {
-	if( file_exists( ROOT . 'db/clean.db' ) )
+	if( file_exists( ROOT . 'db/clean.db' . ( IN_SQLITE3 ? '3' : '' )) )
 	{
-		$rand_db = substr(md5('ts_' . rand( 1 , 9999 ) . time()) , 0 , rand( 10 , 15 ) ) . '.db';
-		rename( ROOT . 'db/clean.db' , ROOT . 'db/' . $rand_db  );
+		$rand_db = substr(md5('ts_' . rand( 1 , 9999 ) . time()) , 0 , rand( 10 , 15 ) ) . '.db'.( IN_SQLITE3 ? '3' : '' );
+		copy( ROOT . 'db/clean.db'.( IN_SQLITE3 ? '3' : '' ) , ROOT . 'db/' . $rand_db  );
 
 		$content = '<' . '?php ' . '$GLOBALS[\'config\'][\'db\'][\'file_name\'] =\'db/' .  $rand_db . '\';' . '?' . '>';
 		file_put_contents(  CROOT . 'config/db.config.php' , $content );

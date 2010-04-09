@@ -41,7 +41,7 @@ class projectMod extends controller
 		if( get_var("SELECT COUNT(*) FROM project WHERE name = '" . s($name) . "'") > 0 ) return ajax_box( '项目名被占用,请不要重复建立项目' , '系统消息' , 3 );
 		
 		
-		$sql = "INSERT INTO project ( name ,  creator_uid , timeline ) VALUES (  '" . s($name) . "'  ,  '" . uid() . "'  ,  datetime('now')  )";
+		$sql = "INSERT INTO project ( name ,  creator_uid , timeline ) VALUES (  '" . s($name) . "'  ,  '" . uid() . "'  ,  datetime('now', 'localtime')  )";
 		
 		run_sql( $sql );
 		
@@ -122,7 +122,7 @@ class projectMod extends controller
 		if( $content = get_var("SELECT content FROM riki WHERE tag = '" . s( $old_tag ) . "' ORDER BY timeline DESC LIMIT 1") )
 		{
 			$content = $content . '<p>本文档转移自 - [[' . $old_tag . ']]</p>';
-			$sql = "INSERT INTO riki ( tag , content , uid , pid ,timeline ) VALUES (  '" . s($name) . "'  ,  '" . s($content) . "'  ,  '" . uid() . "'  , '" . intval($pid) . "' ,  datetime('now')  )";
+			$sql = "INSERT INTO riki ( tag , content , uid , pid ,timeline ) VALUES (  '" . s($name) . "'  ,  '" . s($content) . "'  ,  '" . uid() . "'  , '" . intval($pid) . "' ,  datetime('now', 'localtime')  )";
 			run_sql( $sql );
 			
 			if( sqlite_last_error(db()) != 0 )

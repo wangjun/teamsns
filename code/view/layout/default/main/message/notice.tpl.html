@@ -1,0 +1,17 @@
+<div class="p10">
+	<div class="riki_title">
+		<div class="float_right"> <img src="static/image/mail_back.gif" />&nbsp;<a href="?m=message">私信</a> |  <img src="static/image/bell.gif" />&nbsp;<a href="?m=message&a=notice">通知</a></div>
+		<h4>通知</h4>
+	</div>
+	<div class="p10">
+		<?php if( is_array( $notices ) ): ?>
+		<?php foreach( $notices  as $item ): ?>
+			<p class="app app_<?=$item['aname']?> <?php if( $item['is_read'] == 1 ){ echo 'gray'; } ?>">
+			<?=$item['content']?>&nbsp;<span class="gray"><?=date("d日 H:i" , strtotime( $item['timeline'] ))?></span>
+			</p>	
+		<?php endforeach; ?>	
+		<?php else: ?>
+		<div class="p5">没有通知</div>	
+		<?php endif; ?>		
+	</div>	
+</div>

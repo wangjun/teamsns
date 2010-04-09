@@ -1,0 +1,21 @@
+<div class="box_title">
+	<div class="closer"><img src="static/image/cross.gif" onclick="close_float_box()" /></div>
+	指定TODO默认项目
+</div>
+<div class="box_container">
+<div class="desp">
+	<p>请选择默认的项目</p>
+	<div class="p5">
+		<p><input type="radio" value="0" name="pid" id="p_0" onclick="show_float_box('?m=todo&a=set_project_do&todo_page=<?=$todo_page?>&pid=0&fpid=<?=intval(v('fpid'))?>');void(0)" />&nbsp;<label for="p_0" class="hand">全局</label></p>
+		<?php if( is_array( $projects ) ): ?>
+		<?php foreach( $projects as $item ): ?>
+			<p><input type="radio" value="<?=$item['id']?>" name="pid" id="p_<?=$item['id']?>" onclick="show_float_box('?m=todo&a=set_project_do&todo_page=<?=$todo_page?>&pid=<?=intval($item['id'])?>&fpid=<?=intval(v('fpid'))?>');void(0)" />&nbsp;<label for="p_<?=$item['id']?>" class="hand" <?php if( $item['color_id'] > 0 ){ echo 'style="color:' . color($item['color_id']) . '"'; } ?>><?=$item['name']?></label></p>
+		<?php endforeach; ?>	
+		<?php endif; ?>
+		
+	<br/>
+	<script>set_radio('pid' , '<?=get_current_pid()?>')</script>
+	</div>	
+</div>
+<br clear="all"/>
+</div>

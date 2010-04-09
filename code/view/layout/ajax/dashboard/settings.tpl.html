@@ -1,0 +1,19 @@
+<div class="box_title">
+	<div class="closer"><img src="static/image/cross.gif" onclick="close_float_box()" /></div>
+	近况分类设定
+</div>
+<div class="box_container">
+<div class="desp">
+	<form action="?m=dashboard&a=settings_update" method="post" id="form_feed_settings">
+	<p>请去掉你希望不显示的分类前的小勾</p>
+	<div class="app app_user"><input type="checkbox" name="settings[]" value="user" id="setting_user" <?php if( $all || in_array( 'user' , $settings ) ){ echo 'checked'; } ?>/>&nbsp;<label for="setting_user">用户信息</div>
+		<div class="app app_cast"><input type="checkbox" name="settings[]" value="cast" id="setting_cast" <?php if( $all || in_array( 'cast' , $settings ) ){ echo 'checked'; } ?>/>&nbsp;<label for="setting_cast">广播信息</div>
+	<div class="app app_todo"><input type="checkbox" name="settings[]" value="todo" id="setting_todo" <?php if( $all || in_array( 'todo' , $settings ) ){ echo 'checked'; } ?>/>&nbsp;<label for="setting_todo">TODO</div>
+	<div class="app app_doc"><input type="checkbox" name="settings[]" value="doc" id="setting_doc" <?php if( $all || in_array( 'doc' , $settings ) ){ echo 'checked'; } ?>/>&nbsp;<label for="setting_doc">文档信息</div>
+	<div class="app app_project"><input type="checkbox" name="settings[]" value="project" id="setting_project" <?php if( $all || in_array( 'project' , $settings ) ){ echo 'checked'; } ?>/>&nbsp;<label for="setting_project">项目信息</div><br/>
+	<p class="actions"><input type="button" class="button" value="保存设置" onclick="send_form_pop('form_feed_settings')" /></p>			
+	<br clear="all"/>
+	</form>
+</div>
+<br clear="all"/>
+</div>

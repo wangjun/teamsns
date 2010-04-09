@@ -1,0 +1,16 @@
+<div class="p5" style="padding-top:0px">
+<div class="riki_title"><strong>广播</strong>&nbsp;<a href="javascript:if($('cast_side_link').getStyle('display') == 'none') { $('cast_side_link').setStyle('display' ,''); }else{ $('cast_side_link').setStyle('display' ,'none'); } ;void(0)" title="相关链接"><img src="static/image/paperclip.gif" /></a>&nbsp;<span class="gray">发送给全部同事</span> &nbsp;</div>
+<form action="?m=dashboard&a=cast" method="post" id="form_cast_side" >
+<div id="cast_side_link" style="display:none;padding-bottom:5px">相关链接<input type="text" name="link" class="text" style="width:160px" /></div>
+<input type="text" class="text" style="width:120px" name="cast" id="cast_box_side" accesskey="c" />&nbsp;<input type="button" class="button" value="广播" onclick="if($('cast_box_side').value != ''){send_form_pop('form_cast_side');$('cast_box_side').value='';}else{$('cast_box_side').value='这里不能为空哦!';$('cast_box_side').focus();}" id="cast_add_side" />
+</form>
+<br/>
+
+<div class="riki_title"><strong>个人近况</strong></div>
+<p><img src="static/image/person.gif" />&nbsp;<a href="?m=dashboard&other=1">全部同事</a></p>
+<?php if( is_array( $people_all ) ): ?>
+	<?php foreach( $people_all as $item ): ?>
+		<p><img src="static/image/person.gif" />&nbsp;<a href="?m=dashboard&uid=<?=$item['id']?>"><?=$item['name']?></a></p>
+	<?php endforeach; ?>	
+<?php endif; ?>		
+</p>

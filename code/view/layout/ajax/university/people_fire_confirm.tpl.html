@@ -1,0 +1,17 @@
+<div class="box_title">
+	<div class="closer"><img src="static/image/cross.gif" onclick="close_float_box()" /></div>
+	解雇员工
+</div>
+<div class="box_container">
+<div class="pic">
+	<img src="<?=$avatar?>" />
+</div>	
+<div class="desp">
+	<p>你确定要解雇<?=$name?>吗?</p>
+	<p class="action">
+		<input type="button" class="button" value="取消" onclick="close_float_box()"/>
+		&nbsp;&nbsp;<input type="button" class="button" value="是的" onclick="show_float_box('?m=university&amp;a=people_fire_do&amp;uid=<?=$uid?>')" />
+	</p>
+</div>
+<br clear="all"/>
+</div>

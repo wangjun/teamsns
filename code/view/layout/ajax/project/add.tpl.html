@@ -1,0 +1,13 @@
+<div class="box_title">
+	<div class="closer"><img src="static/image/cross.gif" onclick="close_float_box()" /></div>
+	添加项目
+</div>
+<div class="box_container">
+<form action="?m=project&a=save" method="post" id="form_project" onsubmit="$('project_add').onclick();return false;">
+<input type="text" class="text" style="width:300px" name="name" id="project_box"  />&nbsp;<input type="button" class="button" value="保存" onclick="if($('project_box').value != ''){send_form_pop('form_project');}else{$('project_box').value='这里不能为空哦!';$('project_box').focus();}" id="project_add" />
+</form>
+</div>
+<br clear="all"/>
+<script>
+	(function(){$('project_box').focus()}).delay(<?=0.5*1000?>);
+</script>

@@ -1,0 +1,15 @@
+<div class="box_title">
+	<div class="closer"><img src="static/image/cross.gif" onclick="close_float_box()" /></div>
+	颜色设定
+</div>
+<div class="box_container">
+<div class="desp">
+	<p>请为项目 <span class="green"><?=$pinfo['name']?></span> 指定颜色</p>
+	<?php for( $i=1; $i<8 ; $i++ ): ?>
+	<div style="background:<?=color($i)?>;width:16px;height:16px;border:1px solid #ccc;margin:5px;float:left;cursor:pointer" onclick="show_float_box('?m=project&a=color_update&pid=<?=$pinfo['id']?>&cid=<?=$i?>');void(0)"></div>	
+		
+	<?php endfor; ?>	
+	<br clear="all"/>
+</div>
+<br clear="all"/>
+</div>

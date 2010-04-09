@@ -1,0 +1,18 @@
+<div class="box_title">
+	<div class="closer"><img src="static/image/cross.gif" onclick="close_float_box()" /></div>
+	修改TODO
+</div>
+<div class="box_container">
+<form action="?m=todo&a=update&tid=<?=$tid?>&fpid=<?=intval(v('fpid'))?>" method="post" id="form_todo" onsubmit="$('todo_add').onclick();return false;">
+<input type="text" class="text" style="width:300px" name="todo" id="todo_box" value="<?=$tinfo['name']?>" />&nbsp;<input type="button" class="button" value="保存" onclick="if($('todo_box').value != ''){send_form_pop('form_todo');}else{$('todo_box').value='这里不能为空哦!';$('todo_box').focus();}" id="todo_add" />	<br/><br/>
+	<img src="static/image/paperclip.gif" />&nbsp;<a href="javascript:$('todo_link').setStyle('display' ,'');void(0)">链接</a>
+	&nbsp;&nbsp;<img src="static/image/asterisk_orange.png" />&nbsp;<a href="javascript:$('todo_desp').setStyle('display' ,'');void(0)">备注</a>
+	
+	<div id="todo_link" style="<?php if( $tinfo['link'] == '' ){ echo 'display:none;'; } ?>padding-top:5px"><input type="text" name="link" class="text" style="width:300px" value="<?=$tinfo['link']?>" /></div>
+	<div id="todo_desp" style="<?php if( $tinfo['desp'] == '' ){ echo 'display:none;'; } ?>padding-top:5px"><textarea class="text" name="desp" style="width:300px;height:60px"><?=$tinfo['desp']?></textarea></div>	
+</form>
+</div>
+<br clear="all"/>
+<script>
+	(function(){$('todo_box').focus();$('todo_box').value=$('todo_box').value+''}).delay(<?=0.5*1000?>);
+</script>

@@ -1,0 +1,57 @@
+<?php include_once( dirname(__FILE__) . '/header.tpl.html' ); ?>
+<div class="p10">
+<div class="riki_title">
+	<div class="float_right"><img src="static/image/plus.gif" />&nbsp;<a href="?m=people&a=add">添加帐号</a></div>
+	<h4>同事列表</h4>
+</div>
+<div id="page_list">
+<?php if( is_array( $people ) ): ?>
+	<?php foreach( $people as $item ): ?>
+		<div class="people" id="pdiv_<?=$item['id']?>">
+			<table>
+				<tr>
+					<td width="40">
+						
+						<?php if( in_array( $item['id'] , online_uid() ) ): ?><img src="static/image/online_icon.gif" class="online"/><?php endif; ?>	
+						<a href="javascript:show_float_box('?m=message&a=box&to_uid=<?=$item['id']?>');void(0)"><img src="<?=get_user_icon($item['id'])?>" class="icon" title="<?=$item['name']?>" /></a>
+						<a href="?m=people&a=profile&uid=<?=$item['id']?>"><center><?=$item['name']?></center></a>
+						
+						<br/>
+						<center>
+						<?php if( ulevel() > 5 ): ?>
+							<a href="javascript:show_float_box('?m=people&a=remove_confirm&uid=<?=$item['id']?>');void(0)">关闭</a>
+						<?php endif; ?>	
+						</center>
+					</td>
+					<td valign="top">
+					<div>	
+						<div class="riki_title">
+							<div class="float_right"><a href="?m=people&a=modify&uid=<?=$item['id']?>">编辑</a></div>
+							<?php if( $item['level'] < 1 ): ?>
+							<span class="red"><strike><?=$item['name']?></strike>[已冻结]</span>
+							<?php else: ?>	
+							<strong><?=$item['name']?></strong>
+							<?php endif; ?>
+							</div>
+						<div class="green">
+						<p><img src="static/image/mail.gif" /> &nbsp;<span class="gray">电邮</span> <?=$item['email']?></p>
+						<p><img src="static/image/person.gif" /> &nbsp;<span class="gray">MSN</span> <?=$item['msn']?></p>
+						<p><img src="static/image/mobile.gif" /> &nbsp;<span class="gray">手机</span> <?=$item['mobile']?></p>
+						<p><img src="static/image/printer.gif" /> &nbsp;<span class="gray">办公电话</span> <?=$item['tel']?></p>
+						</div>
+					</div>
+					</td>		
+				</tr>	
+			</table>					
+		</div>
+		
+		<script>
+		$('pdiv_<?=$item['id']?>').addEvent( 'mouseenter' , function(){ $('pdiv_<?=$item['id']?>').setStyle('background' , '#efefef') ; } );
+		$('pdiv_<?=$item['id']?>').addEvent( 'mouseleave' , function(){ $('pdiv_<?=$item['id']?>').setStyle('background' , '') ; } );
+		</script>
+	<?php endforeach; ?>	
+<?php else: ?>
+<p ><a href="?m=people&a=add">没有帐户?点击这里添加,话说你是WHO?</a></p>	
+<?php endif; ?>	
+</div>
+</div>

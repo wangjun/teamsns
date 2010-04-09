@@ -1,0 +1,18 @@
+<div class="box_title">
+	<div class="closer"><img src="static/image/cross.gif" onclick="close_float_box()" /></div>
+	培训员工
+</div>
+<div class="box_container">
+<div class="pic">
+	<img src="<?=$user['tinyurl']?>" />
+</div>	
+<div class="desp">
+	<p>培训 <span class="green"><?=$user['name']?></span> 成为 <span class="green"><?=edu_level($user['level']+1)?></span> ?</p>
+	<p>培训将花费 <span class="red"><?=train_get_fee($user['level'])?></span> 万银币和 <span class="red"><?=train_get_exp($user['level'])?></span> 点经验值</p>
+	<p class="action">
+		<input type="button" class="button" value="取消" onclick="close_float_box()"/>
+		&nbsp;&nbsp;<input type="button" class="button" value="是的" onclick="show_float_box('?m=university&amp;a=people_train_do&amp;uid=<?=$user['uid']?>')" />
+	</p>
+</div>
+<br clear="all"/>
+</div>

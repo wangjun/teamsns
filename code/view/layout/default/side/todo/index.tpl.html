@@ -1,0 +1,33 @@
+<div class="p5" style="padding-top:0px">
+	
+<?php if(is_array( $todos_slow )): ?>
+<div class="riki_title">已冻结的TODO</div>	
+
+<?php foreach( $todos_slow as $todo ): ?>
+
+	<div id="p_todo_<?=$todo['id']?>" style="line-height:20px">
+
+<input type="checkbox" name="todo<?=$todo['id']?>" id="todo<?=$todo['id']?>" onclick="todo_set(this ,<?=$todo['id']?>)"  />&nbsp;<label ><?=$todo['name']?></label>&nbsp;
+
+		<span id="todo_edit_<?=$todo['id']?>" style="display:none">
+			<img src="static/image/drop_box.gif" /><a href="javascript:show_float_box('?m=todo&a=quick&tid=<?=$todo['id']?>&fpid=<?=$pid?>');void(0)">解冻</a> 
+			 </span></div>
+<script>
+$('p_todo_<?=$todo['id']?>').addEvent( 'mouseenter' , function(){ show_todo_edit(<?=$todo['id']?>); } );
+$('p_todo_<?=$todo['id']?>').addEvent( 'mouseleave' , function(){ show_todo_edit(<?=$todo['id']?> , 1); } );
+</script>	
+
+<?php endforeach; ?>	
+<br/>
+<?php endif; ?>
+
+<div class="riki_title">项目TODO</div>	
+<p><img src="static/image/list_unordered.gif" />&nbsp;<a href="?m=todo">所有项目</a></p>
+<?php if( is_array( $projects ) ): ?>
+<?php foreach( $projects as $item ): ?>
+<p><img src="static/image/list_unordered.gif" />&nbsp;<a href="?m=todo&pid=<?=$item['id']?>"><?=$item['name']?></a></p>
+<?php endforeach; ?>		
+<?php endif; ?>
+
+</div>
+

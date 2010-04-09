@@ -1,0 +1,41 @@
+<div class="box_title">
+	<div class="closer"><img src="static/image/cross.gif" onclick="close_float_box()" /></div>
+	站内消息
+</div>
+<div class="box_container">
+	<table>
+		<tr>
+			<td width="40">
+				<img src="<?=get_user_icon($to_user['id']);?>" class="icon" />
+				<center><?=$to_user['name']?></center>
+			</td>
+			<td>
+				<div class="message_history">
+				<?php if( is_array( $history ) ): ?>
+					<?php foreach( $history as $item ): ?>
+						<?php if( $item['to_uid'] == uid() ): ?>
+						<div style="padding:2px;background:#efefef"><?=$to_user['name']?>: <?=nl2br($item['content'])?>&nbsp;<span class="gray"><?=date("m-d H:i" , strtotime($item['timeline']))?></span></div>
+						<?php else: ?>
+						<div style="padding:2px;background:white"><?=uname()?>: <?=nl2br($item['content'])?>&nbsp;<span class="gray"><?=date("m-d H:i" , strtotime($item['timeline']))?></span></div>
+						<?php endif; ?>		
+					<?php endforeach; ?>	
+				<?php else: ?>
+					<p class="gray">没有历史记录</p>
+				<?php endif; ?>		
+				</div>
+				<div class="message_line">
+				<form action="?m=message&a=send&to_uid=<?=$to_uid?>" method="post" id="form_message">	
+				<textarea name="content" style="width:280px;height:60px;background:#f0f0f0" id="mcontent"></textarea>	
+				<br/>
+				<center>
+					<input type="button" class="button" value="发送消息" style="width:120px" onclick="send_form_pop('form_message')" />
+				</center>
+				</form>	
+				<script>(function(){ if($('mcontent')){$('mcontent').focus();} }).delay(200)</script>
+				</div>
+			</td>		
+		</tr>	
+	</table>	
+	
+	
+</div>

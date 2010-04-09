@@ -1,0 +1,37 @@
+<?php $menu = menu(); ?>
+<div id="top_nav">
+<div id="settings">
+<?php if( is_login() ): ?>		
+<a href="?m=people&a=profile">个人主页</a> &nbsp;<span>|</span>&nbsp;
+<a href="?m=people">同事</a> &nbsp;<span>|</span>&nbsp;
+<span id="pm"><a href="?m=message">消息</a></span> &nbsp;<span>|</span>&nbsp;
+<a href="?m=people&a=settings">设置</a> &nbsp;<span>|</span>&nbsp;
+<a href="static/client" target="_blank">客户端</a> &nbsp;<span>|</span>&nbsp;
+<a href="?m=user&a=logout">退出</a>
+<?php else: ?>
+<a href="?m=user&a=login">登录</a> &nbsp;<span>
+<?php endif; ?>	
+</div>
+<div id="logo"><span><?=c('site_name')?></span> - <?=c('site_desp')?></div>
+
+<ul class="nav">	
+<?php 
+$hit = false;
+if( is_login() ): ?>
+<?php $tabs = tab();  foreach( $tabs as $tab ): ?>
+
+<?php if( $tab['m'] == g('m') && ( $tab['a'] == '' ||   $tab['a'] == g('a') )  ): ?>
+		<li class="cur"><a href="?m=<?=g('m')?>&a=<?=$tab['a']?>"><?=$tab['t']?></a></li>
+		<?php $hit = true; ?>
+<?php else: ?>
+		<li><a href="?m=<?=$tab['m']?>&a=<?=$tab['a']?>"><?=$tab['t']?></a></li>
+<?php endif; ?>	
+	
+<?php endforeach; ?>
+<?php endif; ?>	
+<?php if( !$hit ): ?><li class="cur"><a href="?m=<?=g('m')?>&a=<?=g('a')?>">其他</a></li><?php endif; ?>	
+
+
+	
+</ul>	
+</div>	

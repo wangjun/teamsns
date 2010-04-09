@@ -1,0 +1,24 @@
+<div class="box_title">
+	<div class="closer"><img src="static/image/cross.gif" onclick="close_float_box()" /></div>
+	<?=deal($user['sex'])?>员工
+</div>
+<div class="box_container">
+<div class="pic">
+	<img src="<?=$user['tinyurl']?>" />
+</div>	
+<div class="desp">
+	<form action="?m=university&amp;a=people_sad_do&amp;uid=<?=$user['uid']?>" method="post" id="form_people_sad_confirm">
+	<p>你要如何<?=deal($user['sex'])?><?=$user['name']?>呢?</p>
+	<ul class="nolist">
+		<li><input type="radio" value="1" name="sad_type" id="sad1" checked/><label for="sad1">请<?=ta($user['sex'])?>喝三鹿</label></li>
+		<li><input type="radio" value="2" name="sad_type" id="sad2" /><label for="sad2"><? if ( $user['sex'] == 1 ): ?>把<?=ta($user['sex'])?>班上的帅哥全转到隔壁班上<? else: ?>把<?=ta($user['sex'])?>班上的美女全转到隔壁班上<? endif; ?></label></li>
+		<li></li>
+	</ul>	
+	<p class="action">
+		<input type="button" class="button" value="取消" onclick="close_float_box()"/>
+		&nbsp;&nbsp;<input type="button" class="button" value="确定" onclick="send_form_pop('form_people_sad_confirm')" />
+	</p>
+	</form>
+</div>
+<br clear="all"/>
+</div>

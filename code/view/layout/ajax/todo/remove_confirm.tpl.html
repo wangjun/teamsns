@@ -1,0 +1,14 @@
+<div class="box_title">
+	<div class="closer"><img src="static/image/cross.gif" onclick="close_float_box()" /></div>
+	删除TODO
+</div>
+<div class="box_container">
+<div class="desp">
+	<p>你确定要删除 <span class="green"><?=$name?></span> 吗?</p>
+	<p class="action">
+		<input type="button" class="button" value="取消" onclick="close_float_box()"/>
+		&nbsp;&nbsp;<input type="button" class="button" value="是的" onclick="show_float_box('?m=todo&a=remove&tid=<?=$tid?>&fpid=<?=intval(v('fpid'))?>')" />
+	</p>
+</div>
+<br clear="all"/>
+</div>

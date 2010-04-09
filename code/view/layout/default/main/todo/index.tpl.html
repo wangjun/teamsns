@@ -1,0 +1,243 @@
+<div class="p10">
+<div class="riki_title">
+	<div class="float_right"> <img src="static/image/plus.gif" />&nbsp;<a href="javascript:show_float_box(  '?m=todo&a=add&pid=<?=$pid;?>');void(0)">添加</a></div>
+	<h4>TODO</h4>
+</div>
+
+<?php if( $pid > 0 ): ?>
+<?php $pname = the( the( project() , $pid ) , 'name' ); ?>	
+	<div class="float_right"><img src="static/image/tag.gif" />&nbsp;<a href="?m=doc&tag=<?=urlencode($pname);?>"><?=$pname?>的文档</a></div>
+	<strong><a href="?m=todo&pid=<?=$pid?>"class="riki_active"><?=the( the( project() , $pid ) , 'name' )?>的TODO</a> | <a href="?m=todo" >全部TODO</a></strong>
+<?php else: ?>
+	<strong><a href="?m=todo" <?php if( $pid == 0 ){ echo 'class="riki_active"'; } ?>>全部TODO</a> | <a href="?m=todo&pid=-1" <?php if( $pid == -1 ){ echo 'class="riki_active"'; } ?>>未分类TODO</a></strong>	
+<?php endif; ?>
+	
+<?php if( uid() != $user_id ): ?>
+<?php /***************** 别人的TODO begin ******************/ ?>
+<div class="p5 riki_box red"><stong>请注意,您当前访问的是<?=$user['name']?>的TODO</strong></div>
+	<div id="todo_list" class="p5">
+	<h4 class="green"><?=$user['name']?>的TODO</h4>
+		<?php if(is_array( $todos_open )): ?>
+		<?php foreach( $todos_open as $todo ): ?>
+
+			<div id="p_todo_<?=$todo['id']?>" style="padding:5px">
+				
+					<?php /***************** todo 浮动编辑图层 ******************/ ?>
+
+					<div id="todo_edit_<?=$todo['id']?>" style="display:none;float:right;padding-right:2px;padding-top:2px">
+					<input type="checkbox" id="todo_check_box_<?=$todo['id']?>" onclick="if( this.checked ){ show_float_box('?m=todo&a=follow&tid=<?=$todo['id']?>&do=1'); }else{ show_float_box('?m=todo&a=follow&tid=<?=$todo['id']?>'); } void(0);" <?php if( ( $follower_uids = @unserialize($todo['follow_uids']) ) && in_array( uid() , $follower_uids ) ){ echo 'checked'; } ?> />&nbsp;<label class="gray" for="todo_check_box_<?=$todo['id']?>">完成时通知我</label>	</div>
+
+				<?php /***************** todo checkbox ******************/ ?>		
+
+				<input type="checkbox" name="todo<?=$todo['id']?>" id="todo<?=$todo['id']?>"  />&nbsp;
+
+				<?php /***************** todo 项目部分 ******************/ ?>
+
+				<?php if( $todo['pid'] > 0 && intval(v('pid'))!= $todo['pid'] ): ?>
+				<?php $pinfo = the( project() , $todo['pid'] ); ?>	
+					<a href="?m=todo&pid=<?=$pinfo['id']?>"><span <?php if( $pinfo['color_id'] > 0 ){ echo 'style="color:' . color($pinfo['color_id']) . '"'; } ?>>
+					[<?=$pinfo['name']?>]
+					</span></a>	
+				<?php endif; ?>
+
+					<?php /***************** todo 文字部分 ******************/ ?>
+
+					<?php if( $todo['is_start'] == 1 ): ?>
+						<label class="start"><img src="static/image/proceeding.gif" title="正在完成" />&nbsp;<a href="javascript:void(0)')" title="点击暂停"><?=$todo['name']?></a></label>
+					<?php elseif( $todo['is_start'] == 2 ): ?>
+						<label class="pause"><a href="javascript:void(0)" title="点击继续"><?=$todo['name']?></a></label>
+					<?php else: ?>	
+						<label class="stop"><a href="javascript:void(0)" title="点击开始"><?=$todo['name']?></a></label>
+					<?php endif; ?>
+					
+					<?php /***************** 相关链接 ******************/ ?>			
+					<?php if($todo['link'] != ''): ?>
+						<img src="static/image/paperclip.gif" />&nbsp;<a href="<?=$todo['link']?>" title="<?=$todo['link']?>" target="_blank">链接</a>
+					<?php endif; ?>	
+					
+					<?php /***************** 相关备注 ******************/ ?>			
+					<?php if($todo['desp'] != ''): ?>
+						<img src="static/image/asterisk_orange.png" />&nbsp;<a href="javascript:show_float_box('?m=todo&a=desp&tid=<?=$todo['id']?>');void(0)" title="点击查看">备注</a>
+					<?php endif; ?>
+					
+					
+					
+						<?php /***************** 转让链接 ******************/ ?>			
+						<?php if($todo['uid'] != $todo['creator_uid']): ?>
+							<span class="gray"><img src="static/image/person.gif" /><a href="?m=people&a=profile&uid=<?=$todo['creator_uid']?>"><?=get_people_name($todo['creator_uid'])?></a>转让</span>
+						<?php endif; ?>
+					
+					<?php /***************** 事件绑定 ******************/ ?>			
+					<script>
+					$('p_todo_<?=$todo['id']?>').addEvent( 'mouseenter' , function(){ show_todo_edit(<?=$todo['id']?>);$('p_todo_<?=$todo['id']?>').addClass('highlight'); } );
+					$('p_todo_<?=$todo['id']?>').addEvent( 'mouseleave' , function(){ show_todo_edit(<?=$todo['id']?> , 1);$('p_todo_<?=$todo['id']?>').removeClass('highlight'); } );
+					</script>					
+		</div>
+
+		<?php endforeach; ?>	
+		<?php endif; ?>	
+		<?php if(is_array( $todos_done )): ?>
+		<?php foreach( $todos_done as $todo ): ?>
+			<div style="padding:5px">
+
+				<input type="checkbox" name="todo<?=$todo['id']?>" id="todo<?=$todo['id']?>" checked />&nbsp;<label class="done"><strike><?=$todo['name']?></strike></label>
+		
+			<?php /***************** 相关链接 ******************/ ?>			
+			<?php if($todo['link'] != ''): ?>
+				<img src="static/image/paperclip.gif" />&nbsp;<a href="<?=$todo['link']?>" title="<?=$todo['link']?>" target="_blank">链接</a>
+			<?php endif; ?>
+			
+			
+			
+			
+
+			<?php /***************** 时间 ******************/ ?>			
+			<?php if( $todo['total_time'] > 0 ): ?>
+				<span class="gray">[<?=sec2time( $todo['total_time'] )?>]</span>
+			<?php endif; ?>
+			
+			</div>
+		<?php endforeach; ?>	
+		<?php endif; ?>
+</div>	
+		
+<?php /***************** 别人的TODO end ******************/ ?>
+<?php else: ?>		
+<?php /***************** 自己的TODO begin ******************/ ?>
+<div id="todo_list" class="p5">
+	<?php if(is_array( $todos_open )): ?>
+	<?php foreach( $todos_open as $todo ): ?>
+		
+		<div id="p_todo_<?=$todo['id']?>" style="padding:5px">
+			
+			<?php /***************** todo 浮动编辑图层 ******************/ ?>
+			
+			<div id="todo_edit_<?=$todo['id']?>" style="display:none;float:right;padding-right:2px;padding-top:2px">
+			<a href="javascript:show_float_box('?m=todo&a=modify&tid=<?=$todo['id']?>&fpid=<?=$pid;?>');void(0)">修改</a> 
+				&nbsp;|&nbsp;<img src="static/image/block.gif" />&nbsp;<a href="javascript:show_float_box('?m=todo&a=slow&tid=<?=$todo['id']?>&fpid=<?=$pid;?>');void(0)">冻结</a> 
+				&nbsp;|&nbsp;
+				<img src="static/image/trash.gif" />&nbsp;<a href="javascript:show_float_box('?m=todo&a=remove_confirm&tid=<?=$todo['id']?>&fpid=<?=$pid;?>');void(0)">删除</a> 
+				&nbsp;|&nbsp;
+				<img src="static/image/index_card.gif" />&nbsp;<a href="javascript:show_float_box('?m=todo&a=link_confirm&tid=<?=$todo['id']?>&fpid=<?=$pid;?>');void(0)">项目</a>
+				&nbsp;|&nbsp;
+				<img src="static/image/person.gif" />&nbsp;<a href="javascript:show_float_box('?m=todo&a=assign_confirm&tid=<?=$todo['id']?>&fpid=<?=$pid;?>');void(0)">转让</a>
+				&nbsp;&nbsp;
+				</div>
+				
+			<?php /***************** todo checkbox ******************/ ?>		
+			
+			<input type="checkbox" name="todo<?=$todo['id']?>" id="todo<?=$todo['id']?>" onclick="todo_set(this ,<?=$todo['id']?> , <?=$pid;?> )"  />&nbsp;
+			
+			<?php /***************** todo 项目部分 ******************/ ?>
+			
+			<?php if( $todo['pid'] > 0 && intval(v('pid'))!= $todo['pid'] ): ?>
+			<?php $pinfo = the( project() , $todo['pid'] ); ?>	
+				<a href="?m=todo&pid=<?=$pinfo['id']?>"><span <?php if( $pinfo['color_id'] > 0 ){ echo 'style="color:' . color($pinfo['color_id']) . '"'; } ?>>
+				[<?=$pinfo['name']?>]
+				</span></a>	
+			<?php endif; ?>
+			
+				<?php /***************** todo 文字部分 ******************/ ?>
+				
+				<?php if( $todo['is_start'] == 1 ): ?>
+					<label class="start"><img src="static/image/proceeding.gif" title="正在完成" />&nbsp;<a href="javascript:show_float_box('?m=todo&a=stop&tid=<?=$todo['id']?>&fpid=<?=$pid;?>')" title="点击暂停"><?=$todo['name']?></a></label>
+				<?php elseif( $todo['is_start'] == 2 ): ?>
+					<label class="pause"><a href="javascript:show_float_box('?m=todo&a=start&tid=<?=$todo['id']?>&fpid=<?=$pid;?>')" title="点击继续"><?=$todo['name']?></a></label>
+				<?php else: ?>	
+					<label class="stop"><a href="javascript:show_float_box('?m=todo&a=start&tid=<?=$todo['id']?>&fpid=<?=$pid;?>')" title="点击开始"><?=$todo['name']?></a></label>
+				<?php endif; ?>
+				
+				<?php /***************** 相关链接 ******************/ ?>			
+				<?php if($todo['link'] != ''): ?>
+					<img src="static/image/paperclip.gif" />&nbsp;<a href="<?=$todo['link']?>" title="<?=$todo['link']?>" target="_blank">链接</a>
+				<?php endif; ?>
+				
+				<?php /***************** 相关备注 ******************/ ?>			
+				<?php if($todo['desp'] != ''): ?>
+					<img src="static/image/asterisk_orange.png" />&nbsp;<a href="javascript:show_float_box('?m=todo&a=desp&tid=<?=$todo['id']?>');void(0)" title="点击查看">备注</a>
+				<?php endif; ?>
+				
+				<?php /***************** 转让链接 ******************/ ?>			
+				<?php if($todo['uid'] != $todo['creator_uid']): ?>
+					<span class="gray"><img src="static/image/person.gif" /><a href="?m=people&a=profile&uid=<?=$todo['creator_uid']?>"><?=get_people_name($todo['creator_uid'])?></a>转让</span>
+				<?php endif; ?>
+				
+				
+				
+				<?php /***************** 事件绑定 ******************/ ?>			
+				<script>
+				$('p_todo_<?=$todo['id']?>').addEvent( 'mouseenter' , function(){ show_todo_edit(<?=$todo['id']?>);$('p_todo_<?=$todo['id']?>').addClass('highlight'); } );
+				$('p_todo_<?=$todo['id']?>').addEvent( 'mouseleave' , function(){ show_todo_edit(<?=$todo['id']?> , 1);$('p_todo_<?=$todo['id']?>').removeClass('highlight'); } );
+				</script>			
+	</div>
+	
+	<?php endforeach; ?>	
+	<?php endif; ?>	
+	<p style="padding:5px"><img src="static/image/plus.gif" />&nbsp;<a href="javascript:show_float_box(  '?m=todo&a=add&pid=<?=$pid;?>');void(0)">添加TODO</a></p>
+	<?php if(is_array( $todos_done )): ?>
+	<?php foreach( $todos_done as $todo ): ?>
+		<div style="padding:5px">
+			
+			<input type="checkbox" name="todo<?=$todo['id']?>" id="todo<?=$todo['id']?>" onclick="todo_set(this ,<?=$todo['id']?> , <?=$pid;?> )" checked />&nbsp;<label class="done"><strike><?=$todo['name']?></strike></label>
+		
+		<?php /***************** 相关链接 ******************/ ?>			
+		<?php if($todo['link'] != ''): ?>
+			<img src="static/image/paperclip.gif" />&nbsp;<a href="<?=$todo['link']?>" title="<?=$todo['link']?>" target="_blank">链接</a>
+		<?php endif; ?>
+	
+		<?php /***************** 时间 ******************/ ?>			
+		<?php if( $todo['total_time'] > 0 ): ?>
+			<span class="gray">[<?=sec2time( $todo['total_time'] )?>]</span>
+		<?php endif; ?>
+			
+		</div>
+	<?php endforeach; ?>	
+	<p style="padding:5px"><img src="static/image/trash.gif" />&nbsp;<a href="javascript:show_float_box(  '?m=todo&a=clean&fpid=<?=$pid;?>');void(0)">清除已完成的TODO</a></p>
+	<?php endif; ?>
+	
+	
+	<?php if(is_array( $todos_other )): ?>
+	<div class="riki_title"><strong>我转让的TODO</strong></div>	
+	<?php foreach( $todos_other as $todo ): ?>
+		<div style="padding:5px">
+			
+		<?php /***************** todo 项目部分 ******************/ ?>
+		
+		<input type="checkbox" name="todo<?=$todo['id']?>" id="todo<?=$todo['id']?>" />&nbsp;
+		
+		
+		<?php if( $todo['pid'] > 0 && intval(v('pid'))!= $todo['pid'] ): ?>
+		<?php $pinfo = the( project() , $todo['pid'] ); ?>	
+			<a href="?m=todo&pid=<?=$pinfo['id']?>"><span <?php if( $pinfo['color_id'] > 0 ){ echo 'style="color:' . color($pinfo['color_id']) . '"'; } ?>>
+			[<?=$pinfo['name']?>]
+			</span></a>	
+		<?php endif; ?>
+	
+		<a href="?m=todo&uid=<?=$todo['uid']?>&pid=<?=v('pid')?>"><?=$todo['name']?></a>
+		
+		
+		<?php /***************** 相关链接 ******************/ ?>			
+		<?php if($todo['link'] != ''): ?>
+			<img src="static/image/paperclip.gif" />&nbsp;<a href="<?=$todo['link']?>" title="<?=$todo['link']?>" target="_blank">链接</a>
+		<?php endif; ?>
+		
+		<?php /***************** 时间 ******************/ ?>			
+		<?php if( $todo['total_time'] > 0 ): ?>
+			<span class="gray">[<?=sec2time( $todo['total_time'] )?>]</span>
+		<?php endif; ?>
+		
+		<span class="gray">&nbsp;<?=date("m月d日 H:i")?>&nbsp;转让给<img src="static/image/person.gif" />&nbsp;<a href="?m=people&a=profile&uid=<?=$todo['uid']?>"><?=get_people_name($todo['uid'])?></a></span>
+		
+		</div>
+	<?php endforeach; ?>	
+
+	<?php endif; ?>
+	
+	
+</div>
+<?php /***************** 自己的TODO end ******************/ ?>
+
+<?php endif; ?>	
+
+
+</div>

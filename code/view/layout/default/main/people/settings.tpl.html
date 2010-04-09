@@ -1,0 +1,21 @@
+<div class="p10">
+<div class="riki_title">
+	<div class="float_right"><img src="static/image/key.gif" />&nbsp;<a href="?m=people&a=password">修改密码</a> | <img src="static/image/happy.gif" />&nbsp;<a href="?m=people&a=avatar">修改头像</a>  </div>
+	<h4>设置</h4>
+</div>
+<br/>
+<div id="page_list">
+<form action="?m=people&a=settings_update&uid=<?=$user['id']?>" method="post" id="form_people">
+	<p class="formline"><label class="red">*姓名</label><input type="text" class="text" name="name" value="<?=$user['name']?>" /></p>	
+	<p class="formline"><label class="red">*电子邮件</label><input type="text" class="text" name="email" value="<?=$user['email']?>"/></p>	
+	<p class="formline"><label>MSN</label><input type="text" class="text" name="msn" value="<?=$user['msn']?>"/></p>	
+	<p class="formline"><label>手机</label><input type="text" class="text" name="mobile" value="<?=$user['mobile']?>"/></p>	
+	<p class="formline"><label>办公电话</label><input type="text" class="text" name="tel" value="<?=$user['tel']?>"/></p>
+	
+	<p class="formaction"><input type="checkbox" class="text" name="can_edit" value="1" id="can_edit" <?php if( $user['can_edit'] == 1 ) echo 'checked'; ?>/><label for="can_edit">允许同事更新我的联系资料</label></p>	
+	<p class="formaction"><input type="button" class="button" value="保存修改" onclick="send_form_pop('form_people')"/></p>	
+</form>	
+
+	<br clear="all"/>
+</div>
+</div>

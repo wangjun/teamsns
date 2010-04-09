@@ -1,0 +1,21 @@
+<div class="box_title">
+	<div class="closer"><img src="static/image/cross.gif" onclick="close_float_box()" /></div>
+	自定义日期查询
+</div>
+<div class="box_container">
+<label for="date_start">起始日期</label>
+<input type="text" name="date_start" id="date_start" value="<?=date('Y-m-d' , strtotime("-1 month") )?>" />
+<br/><br/>
+<label for="date_end">结束日期</label>
+<input type="text" name="date_end" id="date_end" value="<?=date('Y-m-d') ?>" /><br clear="all" />
+<br clear="all" />
+<input type="button" value="查询" class="button" onclick="location='?m=report&date_start=' + $('date_start').value + '&date_end=' + $('date_end').value + '&pid=<?=$pid?>&uid=<?=$uid?>';"  />
+</div>
+<br clear="all"/>
+<script>
+(function(){
+	start = new Calendar({ date_start: 'Y-m-d' }, { classes: ['dashboard'], tweak: {x: 3, y: -3} });
+	end = new Calendar({ date_end: 'Y-m-d' }, { classes: ['dashboard'], tweak: {x: 3, y: -3} });	
+	
+} ).delay(500);
+</script>

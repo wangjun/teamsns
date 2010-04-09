@@ -1,0 +1,9 @@
+<div class="p5" style="padding-top:0px;line-height:12px">
+	<div class="riki_title">常用文档</div>
+	<p><img src="static/image/tag.gif" />&nbsp;<a href="?m=doc&tag=<?=urlencode(c('team_name'))?>"><?=c('team_name')?></a>
+	<?php if( is_array( $projects ) ): ?>
+	<?php foreach( $projects as $item ): ?>
+	<p><img src="static/image/tag.gif" />&nbsp;<a href="?m=doc&tag=<?=urlencode($item['name'])?>"><?=$item['name']?></a>
+	<?php endforeach; ?>		
+	<?php endif; ?>		
+</div>	

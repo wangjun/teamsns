@@ -1,0 +1,19 @@
+<div class="box_title">
+	<div class="closer"><img src="static/image/cross.gif" onclick="close_float_box()" /></div>
+	添加考试题目
+</div>
+<div class="box_container">
+	<form action="?m=university&amp;a=course_question_save&amp;cid=<?=$cid?>" method="post" id="form_course_question_add" />
+	题目:<br/>
+	<input name="question" value="" class="text long" id="question" /><br/><br/>
+	备选项:<br/>
+	<input name="selection[1]" value="" class="text long" /> &nbsp;<input name="answer" type="radio" value="1" checked />答案<br/><br/>
+	<input name="selection[2]" value="" class="text long" /> &nbsp;<input name="answer" type="radio" value="2"/>答案<br/><br/>
+	<input name="selection[3]" value="" class="text long" /> &nbsp;<input name="answer" type="radio" value="3"/>答案<br/><br/>
+	<input name="selection[4]" value="" class="text long" /> &nbsp;<input name="answer" type="radio" value="4"/>答案<br/><br/>
+	<p>
+		<input type="button" class="button" value="添加为课程考试题目" onclick="if( $('question').value == '' ){  alert('题目不能为空'); }else{ send_form_pop('form_course_question_add') }" />
+	</p>
+</div>
+<br clear="all"/>
+</div>

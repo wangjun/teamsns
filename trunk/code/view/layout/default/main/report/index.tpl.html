@@ -1,0 +1,122 @@
+<div class="p10">
+<div class="riki_title">
+	<div class="float_right"> <img src="static/image/printer.gif" />&nbsp;<a href="javascript:do_print('report_list')">打印</a></div>
+	<h4>工作报告 <span style="font-size:12px">[<a href="?m=report">小组报告</a>]</span></h4>
+</div>
+<div class="float_right">
+	 <a href="?m=report&plan=1&uid=<?=intval(v('uid'))?>&pid=<?=intval(v('pid'))?>">计划</a> | <a href="?m=report&plan=2&uid=<?=intval(v('uid'))?>&pid=<?=intval(v('pid'))?>">规划</a> | <a href="?m=report&plan=3&uid=<?=intval(v('uid'))?>&pid=<?=intval(v('pid'))?>">进行中</a>
+</div>	
+<strong>
+<a href="?m=report&type=today&uid=<?=intval(v('uid'))?>&pid=<?=intval(v('pid'))?>">今天</a> | <a href="?m=report&type=yestoday&uid=<?=intval(v('uid'))?>&pid=<?=intval(v('pid'))?>">昨天</a> | <a href="?m=report&type=thisweek&uid=<?=intval(v('uid'))?>&pid=<?=intval(v('pid'))?>">本周</a> | <a href="?m=report&type=lastweek&uid=<?=intval(v('uid'))?>&pid=<?=intval(v('pid'))?>">上周</a> | <a href="javascript:show_float_box('?m=report&a=customize&uid=<?=intval(v('uid'))?>&pid=<?=intval(v('pid'))?>');void(0)">自定义</a>
+</strong>
+<div id="report_list">
+<div style="text-align:left;padding:20px">
+<?php 
+$uid = intval(v('uid'));
+if( $uid > 0 && $users[$uid] == '' ): ?>
+没有该用户数据
+<?php else: ?>
+<!-- start no user -->
+
+<h4>	
+<?php 
+$uid = intval(v('uid'));
+if( $uid < 1): ?>
+<?=c('team_name')?>	
+<?php else: ?>
+<?=$users[$uid]?>
+<?php endif; ?>
+<?php
+//$info = get_time(z(t(v('type'))));
+
+if( isset($notime) && $notime == 1 )
+{
+	
+}
+else
+{
+	echo $text . '(';
+
+	$is_day = mb_substr( $text , 1 ,1 , 'UTF-8' ) == '日';
+
+	if( $is_day )
+		echo date("m月d日" , strtotime($start));
+	else
+		echo date("m月d日" , strtotime($start)) .'-' . date("m月d日" , strtotime($end)) ;
+
+	echo ')';
+}
+
+
+?>
+工作<?php if($plan == '1' ) echo '计划'; ?>
+<?php if($plan == '2' ) echo '规划'; ?>
+<?php if($plan == '3' ) echo ' - <span class="green">进行中的</span>'; ?>
+<?php if($plan == '0' && $is_day ) echo '小结'; ?>
+<?php if($plan == '0' && !$is_day ) echo '总结'; ?>
+</h4>		
+<br/>	
+<?php //print_r( $todo_done ); ?>
+
+<?php /*************** 只显示某一项目 start*************************/ ?>
+<?php if( intval(v('pid')) > 0 ): ?>
+<div class="riki_box red">项目 <?=get_project_name(intval(v('pid')))?> 部分的报告</div><br/>	
+<?php endif; ?>
+<?php /*************** 只显示某一项目 end *************************/ ?>
+
+<?php if( is_array( $todo_done ) ): ?>
+<?php foreach( $todo_done as $pid => $line ): ?>
+	<?php if( (intval(v('pid')) > 0 )&& ($pid != intval(v('pid'))  )  ){ continue; } ?>
+	<div class="riki_title"><strong><?=get_project_name($pid)?></strong></div>
+	<?php foreach( $line as $uid => $uitem ): ?>
+		<?php if( intval(v('uid')) < 1): ?><p><strong><?=$users[$uid]?></strong></p><?php endif; ?>
+		<?php foreach( $uitem as $time=>$titem ): ?>
+			<?php if( !$is_day ): ?><br/><strong><?=$time?></strong><br/><br/><?php endif; ?>
+			<?php foreach( $titem as $item ): ?>
+		<div style="line-height:20px">
+		<?php /*************** 工作计划 start*************************/ ?>
+		<?php if( $plan > 0 ): ?>
+			<?php if( $plan == 3 ): ?>
+				<img src="static/image/proceeding.gif">&nbsp;<a href="?m=todo&uid=<?=$item['uid']?>" style="color:green"><?=$item['name']?></a> <span><?if($item['start_time'] != '0000-00-00 00:00:00'):?><?=date("m月d日 H:i" , strtotime($item['start_time']))?><?php endif; ?></span>
+			<?php else:?>
+				<a href="?m=todo&uid=<?=$item['uid']?>" style="color:black"><?=$item['name']?></a>
+			<?php endif;?>	
+		
+		<?php else: ?>
+		
+			<?=date( "H:i" , strtotime( $item['check_time'] ))?>&nbsp;:&nbsp;  
+			<?=$item['name']?>
+				<?php if( $item['total_time'] > 0 ): ?>
+					<span class="gray">[<?=sec2time( $item['total_time'] )?>]</span>
+				<?php endif; ?>
+		
+		<?php endif; ?>
+		<?php /*************** 工作计划 end*************************/ ?>		
+		</div>
+			<?php endforeach; ?>
+			
+		<?php endforeach; ?>
+		<br/><br/>
+	<?php endforeach; ?>	
+<?php endforeach; ?>	
+<?php endif; ?>	
+<!-- end no user -->
+<?php endif; ?>	
+</div>
+</div>
+<?php $people = get_data("SELECT * FROM user WHERE level > 0 ORDER BY id ASC LIMIT 10"); ?>
+<?php if( is_array( $people ) ): ?>
+<strong>查看个人工作报告</strong>
+<div class="riki_box float_left" style="width:100%">
+<?php foreach( $people as $item ):  ?>
+	<div class="float_left contact">
+	<?php if( in_array( $item['id'] , online_uid() ) ): ?><img src="static/image/online_icon.gif" class="online"/><?php endif; ?>	
+	<a href="?m=report&uid=<?=$item['id']?>&plan=<?=intval(v('plan'))?>"><img src="<?=get_user_icon($item['id'])?>" class="icon" title="<?=$item['name']?>" />
+	<center><?=$item['name']?></center></a>
+	</div>
+<?php endforeach; ?>
+<br clear="all" />
+</div>
+
+<?php endif; ?>
+</div>

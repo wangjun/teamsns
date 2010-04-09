@@ -1,0 +1,17 @@
+<div class="riki_box">	
+<div class="p5" style="padding-top:0px">
+<div style="padding:20px">	
+<center>	
+	<?php if( in_array( $user['id'] , online_uid() ) ): ?><img src="static/image/online_icon.gif" class="online"/><?php endif; ?>	
+	<a href="javascript:show_float_box('?m=message&a=box&to_uid=<?=$user['id']?>');void(0)"><img src="<?=get_user_icon($user['id'])?>" class="icon" title="<?=$user['name']?>" /></a><br/>
+	<a href="?m=people&a=profile&uid=<?=$user['id']?>"><?=$user['name']?></a>
+</center>	
+</div>
+<div class="green" style="line-height:18px">
+<img src="static/image/mail.gif" /> &nbsp;<span class="gray">电邮</span> <?=$user['email']?><br/>
+<img src="static/image/person.gif" /> &nbsp;<span class="gray">MSN</span> <?=$user['msn']?><br/>
+<img src="static/image/mobile.gif" /> &nbsp;<span class="gray">手机</span> <?=$user['mobile']?><br/>
+<img src="static/image/printer.gif" /> &nbsp;<span class="gray">办公电话</span> <?=$user['tel']?><br/>
+</div>
+</div>
+</div>

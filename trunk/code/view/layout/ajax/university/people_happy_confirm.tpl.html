@@ -1,0 +1,24 @@
+<div class="box_title">
+	<div class="closer"><img src="static/image/cross.gif" onclick="close_float_box()" /></div>
+	讨好员工
+</div>
+<div class="box_container">
+<div class="pic">
+	<img src="<?=$user['tinyurl']?>" />
+</div>	
+<div class="desp">
+	<form action="?m=university&amp;a=people_happy_do&amp;uid=<?=$user['uid']?>" method="post" id="form_people_happy_confirm">
+	<p>你要如何讨好<?=$user['name']?>呢?</p>
+	<ul class="nolist">
+		<li><input type="radio" value="1" name="happy_type" id="happy1" checked/><label for="happy1">请<?=ta($user['sex'])?>FB+卡拉OK</label></li>
+		<li><input type="radio" value="2" name="happy_type" id="happy2" /><label for="happy2">安排<?=ta($user['sex'])?><? if ( $user['sex'] == 1 ): ?>负责帅哥的营养健康讲座<? else: ?>主管美女健身班的摄影工作<? endif; ?></label></li>
+		<li></li>
+	</ul>	
+	<p class="action">
+		<input type="button" class="button" value="取消" onclick="close_float_box()"/>
+		&nbsp;&nbsp;<input type="button" class="button" value="确定" onclick="send_form_pop('form_people_happy_confirm')" />
+	</p>
+	</form>
+</div>
+<br clear="all"/>
+</div>

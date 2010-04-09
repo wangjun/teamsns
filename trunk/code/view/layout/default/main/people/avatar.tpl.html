@@ -1,0 +1,32 @@
+<div class="p10">
+<div class="riki_title">
+	<div class="float_right"><img src="static/image/key.gif" />&nbsp;<a href="?m=people&a=password">修改密码</a> | <img src="static/image/document.gif" />&nbsp;<a href="?m=people&a=settings">修改资料</a> </div>
+	<h4>头像</h4>
+</div>
+<br/>
+<div id="page_list">
+	<div class="p10">
+<table>
+	<tr>
+		<td width="40">
+			<img src="<?=get_user_icon(uid())?>" class="icon" />
+			<center><?=uname()?></center>
+		</td>	
+		<td>
+			<form action="?m=people&a=avatar_update" method="post" enctype="multipart/form-data">
+		
+			<input type="file" name="avatar" class="button" /><br/>
+			<br/>
+			<input type="submit" value="上传头像" class="button" />
+			
+			</form>	
+		</td>	
+	</tr>	
+</table>	
+</div>	
+		
+
+
+	<br clear="all"/>
+</div>
+</div>

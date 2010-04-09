@@ -1,0 +1,71 @@
+<div class="p10">
+<div class="riki_title">
+	<div class="float_right">/// </div>
+	<h4><?=$user['name']?></h4>
+</div>
+<div id="profile_todo">
+<strong>TODO</strong>
+<div class="p5">
+	<?php if(is_array( $todos_open )): ?>
+	<?php foreach( $todos_open as $todo ): ?>
+		
+		<div id="p_todo_<?=$todo['id']?>" style="line-height:24px">
+		
+			
+			<?php if( $todo['is_start'] == 1 ): ?>
+				<label class="start"><img src="static/image/proceeding.gif" title="正在完成" />&nbsp;<a href="?m=todo&uid=<?=$user['id']?>" title="进行中" ><?=$todo['name']?></a></label>
+			<?php elseif( $todo['is_start'] == 2 ): ?>
+				<label class="pause"><a href="?m=todo&uid=<?=$user['id']?>" title="暂停中"><?=$todo['name']?></a></label>
+			<?php else: ?>	
+				<label class="stop"><a href="?m=todo&uid=<?=$user['id']?>" title="未开始"><?=$todo['name']?></a></label>
+			<?php endif; ?>
+		</div>
+	<?php endforeach; ?>
+	<?php endif; ?>
+	<br/>
+	<?php if(is_array( $todos_done )): ?>
+	<?php foreach( $todos_done as $todo ): ?>
+		
+		<div id="p_todo_<?=$todo['id']?>" style="height:24px">
+			<!--<input type="checkbox" name="todo<?=$todo['id']?>" id="todo<?=$todo['id']?>" checked/>&nbsp;-->
+			<a href="?m=todo&uid=<?=$user['id']?>" title="已完成"><span class="gray"><strike>
+			<?=$todo['name']?></strike>
+			</span></a>
+			
+		</div>
+	<?php endforeach; ?>
+	<?php endif; ?>
+	
+	
+	
+</div>	
+</div>		
+
+<!-- news feed -->
+<div id="newsfeed_list">
+<strong>近况</strong>
+
+<div class="p5">
+<?php if( is_array( $feeds ) ): ?>
+	<?php foreach( $feeds as $item ): ?>
+		<div id="feed_<?=$item['id']?>">
+		<div class="app app_<?=$item['aname']?>">
+		<?php if( $item['uid'] == uid() ): ?>	
+		<div class="float_right"><a href="javascript:show_float_box('?m=people&a=feed_remove&fid=<?=$item['id'];?>');void(0)" title="删除"><img src="static/image/minus_bg.gif" /></a></div>
+		<?php endif; ?>
+		<?=$item['title']?> &nbsp; <span class="gray"><?=date("d日 H:i:s" , strtotime($item['timeline']))?></span></div>
+		<?php if( $item['content'] != '' ): ?>
+			<div class="feed_content"><?=$item['content']?></div>
+		<?php endif; ?>	
+		<div class="feed_line"></div>
+		</div>
+	<?php endforeach; ?>	
+<?php else: ?>
+<div class="p10 green">没有近况</div>	
+<?php endif; ?>		
+</div>		
+
+<br clear="all"/>
+</div>
+<!-- / news feed -->
+</div>

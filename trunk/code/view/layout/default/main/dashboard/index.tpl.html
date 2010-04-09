@@ -1,0 +1,20 @@
+<div class="p10">
+<div class="riki_title">
+	<div class="float_right"> <img src="static/image/list_unordered.gif" />&nbsp;<a href="javascript:show_float_box('?m=dashboard&a=settings');void(0);">设置</a></div>
+	<h4>近况</h4>
+</div>	
+	<div class="p5">
+	<?php if( is_array( $feeds ) ): ?>
+		<?php foreach( $feeds as $item ): ?>
+			<div class="feed_line"></div>
+			<div class="app app_<?=$item['aname']?>"><?=$item['title']?> &nbsp; <span class="gray"><?=date("d日 H:i:s" , strtotime($item['timeline']))?></span></div>
+			<?php if( $item['content'] != '' ): ?>
+				<div class="feed_content"><?=$item['content']?></div>
+			<?php endif; ?>	
+			
+		<?php endforeach; ?>	
+	<?php else: ?>
+	<div class="p10 green">没有新动态</div>	
+	<?php endif; ?>		
+</div>
+</div>

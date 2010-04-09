@@ -1,0 +1,17 @@
+<div class="p10">
+<div class="riki_title">
+	<div class="float_right"> <a href="javascript:show_float_box('?m=doc&a=unlock&tag=<?=urlencode($tag)?>');void(0)">返回</a></div>
+	<h4><?=$tag?></h4>
+</div>
+<?php if( isset($warning)  ):?>
+	<div class="riki_box red"><?=$warning;?></div><br/>
+<?php else: ?>
+	<div class="riki_box green">您已经锁定了此文档1个小时,在此期间其他同事将不会对文档进行更新.如果您的工作超过一个小时,请在先保存再继续. <a href="javascript:show_float_box('?m=doc&a=unlock&tag=<?=urlencode($tag)?>');void(0)">点击这里放弃修改</a></div><br/>		
+<?php endif; ?>	
+<form action="?m=doc&a=update&tag=<?=urlencode($tag)?>" method="POST" >
+<div id="page_list">
+	<?=$fck?>
+</div><input type="hidden" name="pid" value="<?=intval($pid)?>" id="pid">
+<br/><input type="submit" value="保存" class="button" />
+</form>
+</div>

@@ -1,0 +1,8 @@
+<center><p class="gray">- <a href="http://teamsns.cn" target="_blank">TeamSNS : 敏捷团队的交流工具</a>  COPYRIGHTS &copy; 2006 - <?=date("Y")?> -</p>
+<br/>
+</center><?php if( is_login() ): ?>
+<script>
+	check_message();
+	setInterval( check_message , 10000 );
+</script>
+<?php endif; ?>

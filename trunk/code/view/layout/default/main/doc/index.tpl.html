@@ -1,0 +1,18 @@
+<?php if( is_array( $vtags ) ): ?> 
+<div class="riki_tag">最近访问  
+<?php foreach( $vtags as $t ): ?>
+<img src="static/image/tag.gif" />&nbsp;<a href="?m=doc&tag=<?=urlencode($t)?>" title="<?=$t?>"><?=short_tag($t)?></a>&nbsp;&nbsp;
+<?php endforeach;?>	
+</div>
+<?php endif; ?>
+<div class="p10">
+<div class="riki_title">
+	<div class="float_right"> <img src="static/image/field_input.gif" />&nbsp;<a href="?m=doc&a=modify&tag=<?=urlencode($tag)?>">修改</a></div>
+	<h4><?=$tag?></h4>
+</div>
+<div id="page_list">
+	<?=$content?>
+</div>
+<div class="riki_line"></div>
+<input type="checkbox" id="doc_check_box" onclick="if( this.checked ){ show_float_box('?m=doc&a=follow&tag=<?=urlencode($tag)?>&do=1'); }else{ show_float_box('?m=doc&a=follow&tag=<?=urlencode($tag)?>'); } void(0);" <?php if( isset( $follower_uids ) && in_array( uid() , $follower_uids ) ){ echo 'checked'; } ?> /><label class="gray" for="doc_check_box">文档更新时通知我</label>	
+</div>	

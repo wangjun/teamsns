@@ -1,0 +1,23 @@
+<div class="box_title">
+	<div class="closer"><img src="static/image/cross.gif" onclick="close_float_box()" /></div>
+	将TODO转让给同时
+</div>
+<div class="box_container">
+<div class="desp">
+	<p>请点击你要转让 <span class="green"><?=$tinfo['name']?></span> 给的人</p>
+	<div class="p5">
+		<?php if( is_array( $peoples ) ): ?>
+			<?php foreach( $peoples as $item ):  ?>
+				<div class="float_left contact">
+				<?php if( in_array( $item['id'] , online_uid() ) ): ?><img src="static/image/online_icon.gif" class="online"/><?php endif; ?>	
+				<a href="javascript:show_float_box('?m=todo&uid=<?=$item['id']?>&a=assign&tid=<?=$tid?>');void(0)"><img src="<?=get_user_icon($item['id'])?>" class="icon" title="<?=$item['name']?>" />
+				<center><?=$item['name']?></center></a>
+				</div>
+			<?php endforeach; ?>	
+		<?php endif; ?>
+	<br/><br/>	
+	<br/>
+	</div>	
+</div>
+<br clear="all"/>
+</div>

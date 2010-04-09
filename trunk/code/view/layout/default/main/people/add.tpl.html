@@ -1,0 +1,22 @@
+<?php include_once( dirname(__FILE__) . '/header.tpl.html' ); ?>
+<div class="p10">
+<div class="riki_title">
+	<div class="float_right"><img src="static/image/list_unordered.gif" />&nbsp;<a href="?m=people">同事列表</a></div>
+	<h4>新建帐号</h4>
+</div>
+<br/>
+<div id="page_list">
+<form action="?m=people&a=save" method="post" id="form_people">
+	<p class="formline"><label class="red">*姓名</label><input type="text" class="text" name="name" /></p>	
+	<p class="formline"><label class="red">*电子邮件</label><input type="text" class="text" name="email" /></p>	
+	<p class="formline"><label>MSN</label><input type="text" class="text" name="msn" /></p>	
+	<p class="formline"><label>手机</label><input type="text" class="text" name="mobile" /></p>	
+	<p class="formline"><label>办公电话</label><input type="text" class="text" name="tel" /></p>	
+	<p class="formaction"><input type="button" class="button" value="创建帐号" onclick="send_form_pop('form_people')"/></p>	
+</form>	
+
+	<br clear="all"/>
+</div>
+</div>
+
+

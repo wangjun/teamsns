@@ -1,0 +1,20 @@
+<div class="box_title">
+	<div class="closer"><img src="static/image/cross.gif" onclick="close_float_box()" /></div>
+	关闭帐号
+</div>
+<div class="box_container">
+<div class="pic">
+	<img src="<?=get_user_icon( $user['id'] )?>" />
+	<center><strong><?=$user['name']?></strong></center>
+</div>	
+<div class="desp">
+	<p>你要如何关闭<?=$user['name']?>的帐号呢?</p>
+	<p class="action">
+		<input type="button" class="button" value="冻结帐号,使其不能登录,保留其以前在系统中的资料" onclick="show_float_box('?m=people&a=remove&uid=<?=$user['id']?>')" /><br/><br/>
+		<input type="button" class="button" value="彻底删除,不在系统中做任何保留" onclick="show_float_box('?m=people&a=remove&uid=<?=$user['id']?>&type=1')" />
+		&nbsp;&nbsp;	<input type="button" class="button" value="取消" onclick="close_float_box()"/>
+	
+	</p>
+</div>
+<br clear="all"/>
+</div>

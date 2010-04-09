@@ -1,0 +1,9 @@
+<?php if( is_array( $history ) ): ?>
+	<?php foreach( $history as $item ): ?>
+		<?php if( $item['to_uid'] == uid() ): ?>
+		<div style="padding:10px;background:#efefef"><?=$to_user['name']?>: <?=nl2br($item['content'])?>&nbsp;<span class="gray"><?=date("m-d H:i" , strtotime($item['timeline']))?></span></div>
+		<?php else: ?>
+		<div style="padding:10px;background:white"><?=uname()?>: <?=nl2br($item['content'])?>&nbsp;<span class="gray"><?=date("m-d H:i" , strtotime($item['timeline']))?></span></div>
+		<?php endif; ?>		
+<?php endforeach; ?>
+<?php endif; ?>			

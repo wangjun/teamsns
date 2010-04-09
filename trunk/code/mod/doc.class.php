@@ -96,7 +96,7 @@ class docMod extends controller
 		else
 		{
 			// lock it
-			$sql = "REPLACE INTO rikilock ( tag , edit_uid , edit_uname , edit_timeline ) VALUES (  '" . s($tag) . "' ,  '" . intval(uid()) . "'  ,  '" . s(uname()) . "'  ,  datetime('now')  )";
+			$sql = "REPLACE INTO rikilock ( tag , edit_uid , edit_uname , edit_timeline ) VALUES (  '" . s($tag) . "' ,  '" . intval(uid()) . "'  ,  '" . s(uname()) . "'  ,  datetime('now', 'localtime')  )";
 			
 			run_sql( $sql );
 		}
@@ -145,7 +145,7 @@ class docMod extends controller
 		
 		$content = v('content');
 		
-		$sql = "INSERT INTO riki ( tag , content , uid , pid , timeline ) VALUES (  '" . s($tag) . "'  ,  '" . s($content) . "'  ,  '" . uid() . "'  , '" . intval($pid) . "' ,  datetime('now')  )";
+		$sql = "INSERT INTO riki ( tag , content , uid , pid , timeline ) VALUES (  '" . s($tag) . "'  ,  '" . s($content) . "'  ,  '" . uid() . "'  , '" . intval($pid) . "' ,  datetime('now', 'localtime')  )";
 		
 		run_sql( $sql );
 		
@@ -177,7 +177,7 @@ class docMod extends controller
 		
 		$do = intval(v('do'));
 		if( $do > 0 )
-			$sql = "INSERT INTO follow ( tag , uid , timeline ) VALUES (  '" . s($tag) . "'  ,  '" . uid() . "'  ,  datetime('now')  )";
+			$sql = "INSERT INTO follow ( tag , uid , timeline ) VALUES (  '" . s($tag) . "'  ,  '" . uid() . "'  ,  datetime('now', 'localtime')  )";
 		else
 			$sql = "DELETE FROM follow WHERE uid = '" . uid() . "' AND tag = '" . s( $tag ) . "'";
 		

@@ -12,8 +12,25 @@ function code_mode()
 	return $GLOBALS['LZ_CODE_MODE'];
 }
 
+if(!function_exists('sqlite_last_error')){
+	function sqlite_last_error($db)
+	{
+		return $db->errorCode();
+	}
+}
 
-
+if(!function_exists('sqlite_last_changes')){
+	function sqlite_last_changes($db,$ret=null)
+	{
+		if(function_exists('sqlite_changes') && !defined('IN_SQLITE3') && !IN_SQLITE3){
+			return sqlite_changes($db);
+		}
+		else
+		{
+			return $ret;
+		}
+	}
+}
 
 function v( $str )
 {
@@ -94,7 +111,7 @@ function info_page( $info , $layout = 'default' )
 	render( $data , $layout );
 }
 
-/*
+
 // pdo version
 
 function db()
@@ -117,6 +134,7 @@ function db()
 		}
 				
 		//$GLOBALS['LZ_DB']->exec( "SET NAMES UTF8" );
+		$GLOBALS['LZ_DB']->sqliteCreateFunction( 'UNIX_TIMESTAMP' ,  'UNIX_TIMESTAMP' );
 	}
 
 	
@@ -126,12 +144,11 @@ function db()
 
 function s( $str )
 {
-	return db()->quote( $str );
+	return substr(db()->quote( $str ),1,-1);
 }
 
 function get_data( $sql )
 {
-	echo $sql;
 	$GLOBALS['LZ_LAST_SQL'] = $sql;
 	$data = Array();
 	try 
@@ -195,7 +212,7 @@ function close_db()
 {
 	$GLOBALS['LZ_DB'] = NULL ;
 }
-*/
+
 /*
 function UNIX_TIMESTAMP( $str )
 { 
@@ -206,7 +223,7 @@ function UNIX_TIMESTAMP( $str )
 function UNIX_TIMESTAMP( $str ) { return strtotime( $str ); }
 
 //sqlite_create_function( db() , 'UNIX_TIMESTAMP' ,  'UNIX_TIMESTAMP' );
-
+/*
 function s( $str )
 {
 	return sqlite_escape_string( $str  );
@@ -287,7 +304,7 @@ function close_db()
 {
 	sqlite_close( $GLOBALS['LZ_DB'] );
 }
-
+*/
 
 
 function get_sqls_from_file( $file ) 
@@ -516,10 +533,10 @@ function online()
 			exit;
 		}
 		
-		$sql = "UPDATE session SET timeline = datetime('now') , session_key = '" . s( $session_key ) . "' WHERE uid = '" . intval(uid()) . "' ";
+		$sql = "UPDATE session SET timeline = datetime('now', 'localtime') , session_key = '" . s( $session_key ) . "' WHERE uid = '" . intval(uid()) . "' ";
 	}
 	else
-		$sql = "INSERT INTO session ( uid , session_key , url , timeline ) VALUES (  '" . intval(uid()) . "'  ,  '" . s($session_key) . "'  ,  '" . s($url) . "'  ,  datetime('now')  )";
+		$sql = "INSERT INTO session ( uid , session_key , url , timeline ) VALUES (  '" . intval(uid()) . "'  ,  '" . s($session_key) . "'  ,  '" . s($url) . "'  ,  datetime('now', 'localtime')  )";
 	
 	run_sql( $sql );
 	return  sqlite_last_error(db()) == 0;
@@ -720,7 +737,7 @@ function publish_feed( $title , $content ='' , $aname = 'system' , $res_id = NUL
 	if( $res_id === NULL ) $res_id = uid() .'-' . $aname . '-' . time(); 
 	if( !$replace && ( get_var( "SELECT COUNT(*) FROM newsfeed WHERE res_id = '" . $res_id . "'" ) > 0 ) ) return true;
 
-	$sql = "REPLACE INTO newsfeed ( aname , uid , title , content , timeline , res_id ) VALUES (  '" . s($aname) . "'  ,  '" . uid() . "'  , '" . s($title) . "'  , '" . s($content) . "'  ,  datetime('now')  ,  '" . s($res_id) . "'  )";
+	$sql = "REPLACE INTO newsfeed ( aname , uid , title , content , timeline , res_id ) VALUES (  '" . s($aname) . "'  ,  '" . uid() . "'  , '" . s($title) . "'  , '" . s($content) . "'  ,  datetime('now', 'localtime')  ,  '" . s($res_id) . "'  )";
 	
 	run_sql( $sql );
 	
@@ -744,7 +761,7 @@ function send_notice( $to_uids , $content , $aname = 'system' , $res_id = NULL ,
 				$new_res_id = $res_id;
 				
 			if( !$replace && ( get_var( "SELECT COUNT(*) FROM notification WHERE res_id = '" . $new_res_id . "'" ) > 0 ) ) return true;	
-			$vsql[] = "REPLACE INTO notification ( to_uid , aname , content , res_id , timeline ) VALUES  (  '" . intval($uid) . "'  ,  '" . s($aname) . "'  ,  '" . s($content) . "'  ,  '" . s($new_res_id) . "'  ,  datetime('now')  )";
+			$vsql[] = "REPLACE INTO notification ( to_uid , aname , content , res_id , timeline ) VALUES  (  '" . intval($uid) . "'  ,  '" . s($aname) . "'  ,  '" . s($content) . "'  ,  '" . s($new_res_id) . "'  ,  datetime('now', 'localtime')  )";
 		}
 			
 		
@@ -753,7 +770,7 @@ function send_notice( $to_uids , $content , $aname = 'system' , $res_id = NULL ,
 	{
 		if( $res_id === NULL ) $res_id = uid() . '-' . $to_uids .'-' . $aname . '-' . time(); 
 		if( !$replace && ( get_var( "SELECT COUNT(*) FROM notification WHERE res_id = '" . $res_id . "'" ) > 0 ) ) return true;
-		$vsql[] = "REPLACE INTO notification ( to_uid , aname , content , res_id , timeline ) VALUES (  '" . intval($to_uids) . "'  ,  '" . s($aname) . "'  ,  '" . s($content) . "'  ,  '" . s($res_id) . "'  ,  datetime('now')  )";
+		$vsql[] = "REPLACE INTO notification ( to_uid , aname , content , res_id , timeline ) VALUES (  '" . intval($to_uids) . "'  ,  '" . s($aname) . "'  ,  '" . s($content) . "'  ,  '" . s($res_id) . "'  ,  datetime('now', 'localtime')  )";
 	}
 		
 	

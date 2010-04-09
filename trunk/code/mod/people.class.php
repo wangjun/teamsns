@@ -86,7 +86,7 @@ class peopleMod extends controller
 			if( $content = get_var("SELECT content FROM riki WHERE tag = '" . s( $old_name .'的个人页面' ) . "' ORDER BY timeline DESC LIMIT 1") )
 			{
 				$content = $content . '<p>本文档转移自 - [[' . $old_name . '的个人页面'. ']]</p>';
-				$sql = "INSERT INTO riki ( tag , content , uid , pid ,timeline ) VALUES (  '" . s($name.'的个人页面') . "'  ,  '" . s($content) . "'  ,  '" . uid() . "'  , '0' ,  datetime('now')  )";
+				$sql = "INSERT INTO riki ( tag , content , uid , pid ,timeline ) VALUES (  '" . s($name.'的个人页面') . "'  ,  '" . s($content) . "'  ,  '" . uid() . "'  , '0' ,  datetime('now', 'localtime')  )";
 				run_sql( $sql );
 
 				if( sqlite_last_error(db()) != 0 )
@@ -184,9 +184,9 @@ class peopleMod extends controller
 		$sql = "UPDATE user SET password = '" . md5( $password_new ) . "' WHERE id = '" . intval(uid()) . "' AND password = '" . md5( $password_old ) . "' ";
 		
 		
-		run_sql( $sql );
+		$ret = run_sql( $sql );
 
-		if( (sqlite_last_error(db()) == 0) && (sqlite_changes (db()) == 1) )
+		if( (sqlite_last_error(db()) == 0) && (sqlite_last_changes (db(), $ret) == 1) )
 		{
 			logout();
 			return ajax_box('成功更新,请使用新的密码登录', '系统消息' , 1 , '?m=user&a=login' );
@@ -246,7 +246,7 @@ class peopleMod extends controller
 			if( $content = get_var("SELECT content FROM riki WHERE tag = '" . s( $old_name .'的个人页面' ) . "' ORDER BY timeline DESC LIMIT 1") )
 			{
 				$content = $content . '<p>本文档转移自 - [[' . $old_name . '的个人页面'. ']]</p>';
-				$sql = "INSERT INTO riki ( tag , content , uid , pid ,timeline ) VALUES (  '" . s($name.'的个人页面') . "'  ,  '" . s($content) . "'  ,  '" . uid() . "'  , '0' ,  datetime('now')  )";
+				$sql = "INSERT INTO riki ( tag , content , uid , pid ,timeline ) VALUES (  '" . s($name.'的个人页面') . "'  ,  '" . s($content) . "'  ,  '" . uid() . "'  , '0' ,  datetime('now', 'localtime')  )";
 				run_sql( $sql );
 
 				if( sqlite_last_error(db()) != 0 )
@@ -409,7 +409,7 @@ class peopleMod extends controller
 		
 		$password_md5 = md5( $password );
 		
-		$sql = "INSERT INTO user (  name , email , msn , tel , mobile , password , level , timeline ) VALUES (   '" . s($name) . "'  ,  '" . s($email) . "'  ,  '" . s($msn) . "'  ,  '" . s($tel) . "'  ,  '" . s($mobile) . "'  ,  '" . s( $password_md5 ) . "'  ,  '1'  ,  datetime('now')  )";	
+		$sql = "INSERT INTO user (  name , email , msn , tel , mobile , password , level , timeline ) VALUES (   '" . s($name) . "'  ,  '" . s($email) . "'  ,  '" . s($msn) . "'  ,  '" . s($tel) . "'  ,  '" . s($mobile) . "'  ,  '" . s( $password_md5 ) . "'  ,  '1'  ,  datetime('now', 'localtime')  )";	
 		
 		run_sql( $sql );
 		

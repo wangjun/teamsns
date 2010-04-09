@@ -50,11 +50,11 @@ class apiMod extends controller
 		
 		if( $todo['is_start'] == 1 )
 		{
-			$sql = "UPDATE todo SET  is_done = '1' , check_time = datetime('now') , is_start = 0 ,  total_time = total_time + (UNIX_TIMESTAMP(datetime('now')) - UNIX_TIMESTAMP(start_time))   WHERE uid = '" . $this->uid . "' AND id = '" .intval($tid) . "'  ";
+			$sql = "UPDATE todo SET  is_done = '1' , check_time = datetime('now', 'localtime') , is_start = 0 ,  total_time = total_time + (UNIX_TIMESTAMP(datetime('now', 'localtime')) - UNIX_TIMESTAMP(start_time))   WHERE uid = '" . $this->uid . "' AND id = '" .intval($tid) . "'  ";
 		}
 		else
 		{
-			$sql = "UPDATE todo SET  is_done = '1' , check_time = datetime('now')   WHERE uid = '" . $this->uid . "' AND id = '" .intval($tid) . "'  ";
+			$sql = "UPDATE todo SET  is_done = '1' , check_time = datetime('now', 'localtime')   WHERE uid = '" . $this->uid . "' AND id = '" .intval($tid) . "'  ";
 		}
 		
 		
@@ -101,7 +101,7 @@ class apiMod extends controller
 			$this->send_return();
 		}
 		
-		$sql = "INSERT INTO cast ( uid , name , link , timeline ) VALUES (  '" . $this->uid . "'  ,  '" . s($cast) . "'  ,  ''  ,   datetime('now')   )";
+		$sql = "INSERT INTO cast ( uid , name , link , timeline ) VALUES (  '" . $this->uid . "'  ,  '" . s($cast) . "'  ,  ''  ,   datetime('now', 'localtime')   )";
 		
 		run_sql( $sql );
 		
@@ -147,7 +147,7 @@ class apiMod extends controller
 			$this->send_return();
 		}
 
-		$sql = "INSERT INTO todo (  name ,  uid , creator_uid , pid , is_done , follow_uids ,  timeline ) VALUES (    '" . s($todo) . "' ,'" . $this->uid . "'  , '" . $this->uid . "'  ,  '0' , '0'  , '' , datetime('now')  )";
+		$sql = "INSERT INTO todo (  name ,  uid , creator_uid , pid , is_done , follow_uids ,  timeline ) VALUES (    '" . s($todo) . "' ,'" . $this->uid . "'  , '" . $this->uid . "'  ,  '0' , '0'  , '' , datetime('now', 'localtime')  )";
 
 		run_sql( $sql );
 
@@ -213,10 +213,10 @@ class apiMod extends controller
 	
 		if( $info = get_line("SELECT * FROM session WHERE uid = '" . intval( $this->uid ) . "' LIMIT 1") )
 		{
-			$sql = "UPDATE session SET timeline = datetime('now')  WHERE uid = '" . intval($this->uid ) . "'";
+			$sql = "UPDATE session SET timeline = datetime('now', 'localtime')  WHERE uid = '" . intval($this->uid ) . "'";
 		}
 		else
-			$sql = "INSERT INTO session ( uid , session_key , url , timeline ) VALUES (  '" . intval($this->uid) . "'  ,  'client'  ,  'client'  ,  datetime('now')  )";
+			$sql = "INSERT INTO session ( uid , session_key , url , timeline ) VALUES (  '" . intval($this->uid) . "'  ,  'client'  ,  'client'  ,  datetime('now', 'localtime')  )";
 
 		run_sql( $sql );
 		

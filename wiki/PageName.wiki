@@ -41,7 +41,7 @@ TeamSNS试图将沟通变得简单,将团队内发生的事情可视化.敏捷�
 
 登录后,系统自动进入近况页面.我们先来看看页面布局.
 
-`<img src="http://teamsns.cn/wp-content/uploads/teamsns.cn/2009/08/guide1.jpg">`
+<img src="http://teamsns.cn/wp-content/uploads/teamsns.cn/2009/08/guide1.jpg">
 
 
 1 设置区
@@ -66,30 +66,30 @@ TeamSNS试图将沟通变得简单,将团队内发生的事情可视化.敏捷�
 
 第二部分 文档
 
-`<img src="http://teamsns.cn/wp-content/uploads/teamsns.cn/2009/08/guide2.jpg">`
+<img src="http://teamsns.cn/wp-content/uploads/teamsns.cn/2009/08/guide2.jpg">
 
 
 点击上图 2 处,即可进入可视化编辑状态,创建新文档的操作也在这里进行.
 
-`<img src="http://teamsns.cn/wp-content/uploads/teamsns.cn/2009/08/guide3.jpg">`
+<img src="http://teamsns.cn/wp-content/uploads/teamsns.cn/2009/08/guide3.jpg">
 
 
 按上图示意进行操作,保存文档后,会出现一个文档链接,点击进入即可对新的文档进行浏览和编辑.
 
 第三部分 TODO
 
-`<img src="http://teamsns.cn/wp-content/uploads/teamsns.cn/2009/08/guide4.jpg">`
+<img src="http://teamsns.cn/wp-content/uploads/teamsns.cn/2009/08/guide4.jpg">
 
 
 第四部分 报告
 
-`<img src="http://teamsns.cn/wp-content/uploads/teamsns.cn/2009/08/guide5.jpg">`
+<img src="http://teamsns.cn/wp-content/uploads/teamsns.cn/2009/08/guide5.jpg">
 
 
 客户端截图
 
-`<img src="http://teamsns.cn/wp-content/uploads/teamsns.cn/2009/08/mm1.png">`
-`<img src="http://teamsns.cn/wp-content/uploads/teamsns.cn/2009/08/mm2.png">`
+<img src="http://teamsns.cn/wp-content/uploads/teamsns.cn/2009/08/mm1.png">
+<img src="http://teamsns.cn/wp-content/uploads/teamsns.cn/2009/08/mm2.png">
 
  
 
